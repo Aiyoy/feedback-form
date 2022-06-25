@@ -3,9 +3,9 @@ export const emulatedRequest = async () => {
     setTimeout(() => {
       const random: number = Math.random();
       if (random > 0.5) {
-        res({ message: 'Everything is fine', status: 'success' });
+        res({ message: 'Запрос отправлен успешно!', status: 'success' });
       } else {
-        res({ message: 'Something went wrong', status: 'error' });
+        res({ message: 'Что-то пошло не так...', status: 'error' });
       }
     }, 3000);
   });

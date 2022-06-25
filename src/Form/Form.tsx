@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import Error from '../Error/Error';
 import { placeholder, inputTitle, formTitle, formBTN, formErrors } from '../constants';
 import { emulatedRequest } from '../utils/functions';
+import Loader from '../Loader/Loader';
+import Toast from '../Toast/Toast';
 
 const Form = (): JSX.Element => {
   const [name, setName] = useState<string>('');
@@ -19,7 +21,8 @@ const Form = (): JSX.Element => {
   const [dateError, setDateError] = useState<string>('');
   const [messageError, setMessageError] = useState<string>('');
 
-  const [isBTNDisable, setIsBTNDisable] = useState<boolean>(false);
+  const [isFormSending, setIsFormSending] = useState<boolean>(false);
+  const [requestMessage, setRequestMessage] = useState<string>('');
 
   const handleSubmit = (): void => {
     validateForm();
@@ -41,16 +44,41 @@ const Form = (): JSX.Element => {
   };
 
   const sendRequest = async () => {
-    setIsBTNDisable(true);
-    // const res = await fetch('randomurl');
+    setIsFormSending(true);
+
+    const formInf = {
+      name: name,
+      email: email,
+      tel: replasedTel,
+      date: date,
+      message: message,
+    }
+
+    //при необходимости раскомментировать для реального запроса
+    // const res = await fetch(url, {
+    //   method: 'POST',
+    //   body: JSON.stringify(formInf),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // });
     // const data: IResponse = await res.json();
+
     const data: IResponse = await emulatedRequest();
-    // if (data.status === 'success') {
+    setRequestMessage(data.message);
+    if (data.status === 'success') {
+      setName('');
+      setEmail('');
+      setTel('');
+      setDate('');
+      setMessage('');
+    } 
 
-    // } else {
+    setIsFormSending(false);
 
-    // }
-    setIsBTNDisable(false);
+    setTimeout(() => {
+      setRequestMessage('');
+    }, 5000);
   };
 
   const validateForm = (): void => {
@@ -107,7 +135,6 @@ const Form = (): JSX.Element => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validateTel = (event: any): void => {
     const element = event.target;
     const pattern: string = element.dataset.phonePattern;
@@ -143,7 +170,7 @@ const Form = (): JSX.Element => {
     setEmail(value);
 
     const regex =
-      /^((([^<>()[\]\.,;:\s@\"]{4,})+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@((([^<>()[\]\.,;:\s@\"]{4,})+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      /^((([^<>()[\]\.,;:\s@\"]{1,})+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@((([^<>()[\]\.,;:\s@\"]{1,})+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!value.length) {
       setEmailError(formErrors.email);
     } else if (!regex.test(value)) {
@@ -164,6 +191,7 @@ const Form = (): JSX.Element => {
   };
 
   return (
+    <>
     <form className="form">
       <div className="form-title">{formTitle}</div>
 
@@ -230,10 +258,13 @@ const Form = (): JSX.Element => {
         {!!messageError.length && <Error>{messageError}</Error>}
       </label>
 
-      <button className="formBTN" type="button" onClick={handleSubmit} disabled={isBTNDisable}>
+      <button className="formBTN" type="button" onClick={handleSubmit}>
         {formBTN}
       </button>
     </form>
+    {!!requestMessage.length && <Toast message={requestMessage}></Toast>}
+    {isFormSending && <Loader></Loader>}
+    </>    
   );
 };
 
