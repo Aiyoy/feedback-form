@@ -1,0 +1,116 @@
+$first: #f9f9ff;
+$second: #217CA3;
+$third: #F34A4A;
+$forth: #EE693F;
+$fifth: #211F30;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $first;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+}
+
+.form {
+  width: 400px;
+  max-height: 90%;
+  padding: 20px;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $second;
+  border-radius: 5px;
+  color: $first;
+  font-size: 24px;
+}
+
+.form-title {
+  margin: 0px auto 15px auto;
+}
+
+.form-label {
+  position: relative;
+  width: 100%;
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+
+.form-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 5px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  background-color: $first;
+  color: $fifth;
+  font-size: 18px;
+
+  &:focus {
+    border: 2px solid $forth;
+  }
+}
+
+.error {
+  border: 3px solid $third;
+}
+
+.textarea {
+  height: 100px;
+  padding: 5px;
+}
+
+.formBTN {
+  width: 200px;
+  height: 40px;
+  border-radius: 3px;
+  margin: 5px auto;
+  background-color: $forth;
+  color: $first;
+  font-size: 24px;
+  border: none;
+  box-shadow: $fifth 4px 4px 0px;
+  transition: transform 0.1s, box-shadow 0.1s;
+  cursor: pointer;
+
+  &:active {
+    transform: translateX(4px) translateY(4px);
+    box-shadow: $fifth 0px 0px 0px;
+  }
+
+  &:disabled {
+    background-color: $fifth;
+    transform: translateX(0px) translateY(0px);
+    box-shadow: none;
+    transition: 0.1s;
+    color: $first;
+  }
+}
+
+.error-text {
+  position: absolute;
+  top: 65px;
+  color: $third;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.textarea-label .error-text {
+  top: 125px;
+}
